@@ -12,10 +12,15 @@
                 scope: 'email'
             }).then(()=>{   // since '.init' is async func. and return promise, use then to
                 this.auth = window.gapi.auth2.getAuthInstance(); // put an google aouth object in this class
-                this.setState({isSignedIn: this.auth.isSignedIn.get()}) // update state with function from aouth object
-            })                                                          // that is checking is user sign in
+                this.setState({isSignedIn: this.auth.isSignedIn.get()}) 
+                this.auth.isSignedIn.listen(this.onAuthChange);  
+           })                                                          
         });
     }
+
+    onAuthChange = () =>{
+            this.setState({isSignedIn: this.auth.isSignedIn.get()}) // update state with function from google aouth object
+    }                                                           // that is checking is user sign in
     
     renderAuthButton(){
         if(this.state.isSignedIn === null) {
