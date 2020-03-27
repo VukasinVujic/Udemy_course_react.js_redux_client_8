@@ -1,4 +1,6 @@
  import React from 'react';
+ import {connect} from 'react-redux';
+ import {signIn, signOut} from '../actions';
 
  class GoogleAuth extends React.Component {
     
@@ -18,9 +20,19 @@
         });
     }
 
-    onAuthChange = () =>{
-            this.setState({isSignedIn: this.auth.isSignedIn.get()}) // update state with function from google aouth object
-    }                                                           // that is checking is user sign in
+    onAuthChange = (isSignedIn) =>{ //we get boolean by default as argument,that we get from 'listen'
+                            //isSignedIn is a property in state
+        if(isSignedIn){
+            this.props.signIn();
+        } else {
+            this.props.signOut();
+        }     
+    
+        /* old version , not need since we get boolean by default of isSignedIn    
+        this.setState({isSignedIn: this.auth.isSignedIn.get()}) // update state with function from google aouth object
+                                                                // that is checking is user sign in
+        */                                                                
+    }                                                           
     
     onSignInClick = () => {
         this.auth.signIn();
@@ -61,4 +73,7 @@
      }
  }
 
- export default GoogleAuth
+ export default connect(
+     null,
+    {signIn,signOut}
+    )(GoogleAuth);
