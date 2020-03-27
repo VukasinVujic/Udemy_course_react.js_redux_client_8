@@ -25,7 +25,7 @@
     onAuthChange = (isSignedIn) =>{ //we get boolean by default as argument,that we get from 'listen'
                             //isSignedIn is a property in state
         if(isSignedIn){
-            this.props.signIn(); //signIn is action creater
+            this.props.signIn(this.auth.currentUser.get().getId()); //signIn is action creater
         } else {
             this.props.signOut(); // //signOut is action creater
         }     
