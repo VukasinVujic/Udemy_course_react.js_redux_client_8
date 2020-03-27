@@ -3,19 +3,21 @@
  import {signIn, signOut} from '../actions';
 
  class GoogleAuth extends React.Component {
-    
-    state = { isSignedIn: null};
+        // state = { isSignedIn: null};
 
     componentDidMount(){
         window.gapi.load('client:auth2', () => { // load gapi library
-            window.gapi.client.init({       // when it loadas it will call this arrow function and 
+            window.gapi.client.init({       // when it loadas, it will call this arrow function and 
                                             // initialize with oauth client id 
                 clientId: '861991510996-un7t04v8gg5equ299kauhu44c7upus4g.apps.googleusercontent.com',
                 scope: 'email'
             }).then(()=>{   // since '.init' is async func. and return promise, use then to
                 this.auth = window.gapi.auth2.getAuthInstance(); // put an google aouth object in this class
-                this.setState({isSignedIn: this.auth.isSignedIn.get()}) 
-                this.auth.isSignedIn.listen(this.onAuthChange);  
+               
+               
+                // this.setState({isSignedIn: this.auth.isSignedIn.get()}) 
+                this.onAuthChange(this.auth.isSignedIn.get()) // change auth state inside redux store
+                this.auth.isSignedIn.listen(this.onAuthChange);  // waiting for a user to click
            })                                                          
         });
     }
@@ -23,9 +25,9 @@
     onAuthChange = (isSignedIn) =>{ //we get boolean by default as argument,that we get from 'listen'
                             //isSignedIn is a property in state
         if(isSignedIn){
-            this.props.signIn();
+            this.props.signIn(); //signIn is action creater
         } else {
-            this.props.signOut();
+            this.props.signOut(); // //signOut is action creater
         }     
     
         /* old version , not need since we get boolean by default of isSignedIn    
@@ -35,17 +37,17 @@
     }                                                           
     
     onSignInClick = () => {
-        this.auth.signIn();
+        this.auth.signIn();//built in method from Google auth object
     }
 
     onSignOutClick = () => {
-        this.auth.signOut();
+        this.auth.signOut();//built in method from Google auth object
     }
 
     renderAuthButton(){
-        if(this.state.isSignedIn === null) {
+        if(this.props.isSignedIn === null ) {
             return null;
-        } else if (this.state.isSignedIn){
+        } else if (this.props.isSignedIn){
             return (
                 <button onClick={this.onSignOutClick} className="ui red google button">
                     <i className="google icon" /> 
@@ -73,7 +75,11 @@
      }
  }
 
+ const mapStateToProps = (state) =>{
+    return  {isSignedIn: state.auth.isSignedIn}
+ }
+
  export default connect(
-     null,
+     mapStateToProps,
     {signIn,signOut}
     )(GoogleAuth);
