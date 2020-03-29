@@ -51,7 +51,7 @@
             return (
                 <button onClick={this.onSignOutClick} className="ui red google button">
                     <i className="google icon" /> 
-                    Sign out
+                    Sign out 
                 </button>
             )
             
