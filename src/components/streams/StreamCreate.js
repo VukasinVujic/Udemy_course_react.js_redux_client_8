@@ -4,22 +4,21 @@ import {Field, reduxForm } from 'redux-form';
 // reduxForm is a function that will work the same way as connect function react-redux librarry
 
 class StreamCreate extends React.Component {
-     renderInput({input, label}) { // destruct formProps to only input
-      
+     renderInput({input, label, meta}) { // destruct formProps to only input
       
         return ( 
         <div className="field">
             <label>{label}</label>
             <input {...input} />
+            <div>{meta.error}</div>
+
         </div>
         )
          /* 
          //basicly the same thing as the one above
          onChange={formProps.input.onChange}
          value={formProps.input.value} */
-
      }
-
      onSubmit(formValues){
         //  event.preventDefaul() //don't need it , redux form does it for us
         console.log(formValues)
@@ -39,8 +38,21 @@ class StreamCreate extends React.Component {
 
 const validate = (formValues) => {
     
+    const errors = {};
+    
+    if(!formValues.title){
+        errors.title = "you must enter title"
+    }
+
+    if(!formValues.description){
+        errors.description = "you must enter title"
+    }
+
+    return errors;
 };
 
 export default reduxForm({
-    form: 'streamCreate'
+    form: 'streamCreate',
+    // validate: validate
+    validate
 })(StreamCreate)
