@@ -2,6 +2,8 @@ import React from 'react';
 import {Field, reduxForm } from 'redux-form';
 // Field is a component so that's whay it starts with capital letter, and 
 // reduxForm is a function that will work the same way as connect function react-redux librarry
+import { connect } from 'react-redux';
+import { createStream } from '../../actions';
 
 class StreamCreate extends React.Component {
     
