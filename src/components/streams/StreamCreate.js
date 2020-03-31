@@ -33,10 +33,13 @@ class StreamCreate extends React.Component {
          onChange={formProps.input.onChange}
          value={formProps.input.value} */
      }
-     onSubmit(formValues){
-        //  event.preventDefaul() //don't need it , redux form does it for us
-        console.log(formValues)
 
+     
+     // if the input is valid (checked by validate method) the method onSubmit will be called 
+     //form values are the obj. that contains the name of field and characters user put 
+     onSubmit = (formValues) => {
+        //  event.preventDefaul() //don't need it , redux form does it for us
+        this.props.createStream(formValues)
      }
     
     render(){
@@ -49,7 +52,7 @@ class StreamCreate extends React.Component {
         )
     }
 }
-
+// validate is function that gets call every time an user try to submit the input
 const validate = (formValues) => {
     
     const errors = {};
@@ -65,8 +68,11 @@ const validate = (formValues) => {
     return errors;
 };
 
-export default reduxForm({
+const formWrapped = reduxForm({ // when we want to use redux form and connect at the same file 
     form: 'streamCreate',
     // validate: validate
     validate
 })(StreamCreate)
+
+
+export default connect(null, {createStream})(formWrapped);// when we want to use redux form and connect at the same file 
