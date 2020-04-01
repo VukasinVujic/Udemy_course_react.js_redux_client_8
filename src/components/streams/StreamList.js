@@ -1,11 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchStreams } from '../../actions'
 
 class StreamList extends React.Component {
     
     componentDidMount(){
         this.props.fetchStreams();
+    }
+
+
+    renderAdmin(stream){
+        if(stream.userId === this.props.currentUserId){
+            return (
+                <div className="right floated content">
+                    <button className="ui button primary">Edit</button>
+                    <button className="ui button negative">Delete</button>
+                </div>
+            )
+        }
     }
     
     renderList(){
@@ -23,12 +36,13 @@ class StreamList extends React.Component {
         })
     }
 
-    renderAdmin(stream){
-        if(stream.userId === this.props.currentUserId){
+    renderCreate(){
+        if(this.props.isSignedIn){
             return (
-                <div className="right floated content">
-                    <button className="ui button primary">Edit</button>
-                    <button className="ui button negative">Delete</button>
+                <div style={{textAlign:'right'}}>
+                    <Link to="/streams/new" className="ui button primary">
+                        Create Stream
+                    </Link>
                 </div>
             )
         }
@@ -38,9 +52,8 @@ class StreamList extends React.Component {
         return (
             <div>
                 <h2>Streams</h2>
-                <div className="ui celled list">
-                    {this.renderList()}
-                </div>
+                <div className="ui celled list">{this.renderList()} </div>
+                  {this.renderCreate()}
             </div>
         )
     }
@@ -52,7 +65,8 @@ const mapStateToProps = (state) => {
         streams: Object.values(state.streams),
         // built in function, takes the object as argument
         //and copy all his values in a array
-        currentUserId: state.auth.userId
+        currentUserId: state.auth.userId,
+        isSignedIn: state.auth.isSignedIn
     };
 }
 
