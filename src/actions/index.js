@@ -22,12 +22,13 @@ export const signOut = () => {
     return{
         type: SIGN_OUT
     };
+    //don't have to dispatch because the connect does it for us 
 };
 
 export const createStream = formValues => async (dispatch , getState)  => {
     const { userId } = getState().auth;
     const response = await streams.post('/streams', {...formValues, userId});
-
+// you have to dispatch here because the response is async function
     dispatch({type: CREATE_STREAM, payload: response.data});
     history.push('/');
 

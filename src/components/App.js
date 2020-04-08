@@ -13,6 +13,7 @@ const App = () => {
     return (
         <div className="ui container">
             <Router history={history}>
+                {/* we changed BrowserRouter with Router here */}
             <div>
             <Header /> 
                  <Route path="/" exact component={StreamList} />
