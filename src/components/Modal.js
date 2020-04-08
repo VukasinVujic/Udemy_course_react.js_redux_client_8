@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import history from '../history';
-
 
 const Modal = props => {
     return ReactDom.createPortal(
         // every time the modal shows up , and user just click outside of it , he will be rerouted to home
         <div 
-        onClick={ () => history.push('/')}
+        onClick={props.onDismiss}
+
         className="ui dimmer modals visible active"
         >
             {/* e.stopPropagation we use to stop event onClick to posible buble up to onClick in parent element  */}

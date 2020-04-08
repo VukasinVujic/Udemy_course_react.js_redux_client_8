@@ -9,7 +9,6 @@ class StreamList extends React.Component {
         this.props.fetchStreams();
     }
 
-
     renderAdmin(stream){
         if(stream.userId === this.props.currentUserId){
             return (
@@ -17,7 +16,9 @@ class StreamList extends React.Component {
                     <Link to={`/streams/edit/${stream.id}`} className="ui button primary">
                     Edit
                     </Link>
-                    <button className="ui button negative">Delete</button>
+                    <Link to={`/streams/delete/${stream.id}`} className="ui button negative">
+                    Delete
+                    </Link>
                 </div>
             )
         }
