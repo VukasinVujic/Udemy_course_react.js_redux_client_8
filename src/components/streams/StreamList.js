@@ -9,6 +9,7 @@ class StreamList extends React.Component {
         this.props.fetchStreams();
     }
 
+// check if the user is the one who creted the stream,if yes,allow him edit/delete the stream
     renderAdmin(stream){
         if(stream.userId === this.props.currentUserId){
             return (
@@ -31,7 +32,10 @@ class StreamList extends React.Component {
                     {this.renderAdmin(stream)}
                     <i className="large middle aligned icon camera" />  
                     <div className="content">
+    {/* when user click on title  reroute him to show details of it */}
+                        <Link to={`/streams/${stream.id}`} className="header">
                         {stream.title}
+                        </Link>
                         <div className="description">{stream.description}</div>                    
                     </div>
                 </div>
